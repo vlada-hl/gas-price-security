@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Онлайн-платформа для оцінювання економічної безпеки держави за індикатором співвідношення імпортної ціни на газ в Україні та Європі.">
+  <title>Оцінювання економічної безпеки держави</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell">
+      <p class="eyebrow">Навчальна аналітична платформа</p>
+      <h1>Оцінювання економічної безпеки держави</h1>
+      <p class="subtitle">Індикатор 1.16: Співвідношення імпортної ціни на газ в Україні та Європі</p>
+    </div>
+  </header>
+
+  <main class="shell main-grid">
+    <section class="card wizard-card" aria-labelledby="wizardTitle">
+      <div class="card-heading">
+        <div>
+          <p class="step-badge" id="stepBadge">Крок 1</p>
+          <h2 id="wizardTitle">Вибір країни / об'єкта</h2>
+        </div>
+        <div class="progress-wrap" aria-label="Прогрес">
+          <div class="progress-track"><div class="progress-bar" id="progressBar" style="width: 25%;"></div></div>
+          <span id="progressText">1 / 4</span>
+        </div>
+      </div>
+
+      <div id="wizardContent" class="wizard-content">
+        <p class="instruction">Введіть назву об'єкта аналізу (наприклад, Україна / Європа).</p>
+        <div class="field">
+          <label for="countryInput">Назва об'єкта дослідження</label>
+          <input id="countryInput" type="text" maxlength="80" placeholder="Наприклад, Україна">
+          <span class="helper">Поле не може бути порожнім і повинно містити щонайменше 2 літери.</span>
+        </div>
+        <div class="button-row"><button class="btn primary" id="countryNext" type="button">Далі</button></div>
+      </div>
+      <div id="message" class="message" role="alert" aria-live="polite"></div>
+    </section>
+
+    <aside class="card info-card">
+      <h2>Як працює розрахунок</h2>
+      <p>Користувач послідовно задає об'єкт, кількість років, самі роки, а потім значеннєві показники ціни на газ в Україні та Європі.</p>
+      <div class="formula">
+        <span>Співвідношення цін</span>
+        <strong>(Ціна в Україні / Ціна в Європі)</strong>
+      </div>
+      <p class="note">Для десяткових чисел використовується виключно кома, наприклад <strong>1,15</strong>.</p>
+      <p class="note">Якщо ціна в Європі дорівнює 0, такі дані не включаються до розрахунку.</p>
+    </aside>
+
+    <section id="resultsSection" class="card results-card hidden" aria-labelledby="resultsTitle">
+      <div class="results-header">
+        <div>
+          <p class="eyebrow">Результат</p>
+          <h2 id="resultsTitle">Підсумок розрахунку</h2>
+          <p id="countryPeriod" class="muted"></p>
+        </div>
+        <div class="actions print-hide">
+          <button class="btn secondary" id="csvBtn" type="button">Завантажити CSV</button>
+          <button class="btn secondary" id="printBtn" type="button">Друк / PDF</button>
+          <button class="btn secondary" id="restartBtn" type="button">Розрахувати заново</button>
+          <button class="btn danger-outline" id="clearBtn" type="button">Очистити дані</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Рік</th>
+              <th>Ціна в Україні (дол./тис. куб. м)</th>
+              <th>Ціна в Європі (дол./тис. куб. м)</th>
+              <th>Співвідношення (разів)</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+          <tfoot>
+            <tr>
+              <th>Середнє</th>
+              <td>—</td>
+              <td>—</td>
+              <th id="averageCell">—</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div id="securityResult" class="security-result"></div>
+      <div id="analysisText" class="analysis-text"></div>
+    </section>
+
+    <section class="card methodology-card">
+      <h2>Методологічна довідка</h2>
+      <p>Рівень економічної безпеки за цим індикатором визначається за середнім значенням співвідношення цін згідно з пороговою шкалою Наказу МЕРТ № 1277:</p>
+      <div class="thresholds" id="thresholds">
+        <div class="threshold"><div class="interval">[0; 0,8]</div><div class="level">Оптимальний</div></div>
+        <div class="threshold"><div class="interval">(0,8; 0,9]</div><div class="level">Задовільний</div></div>
+        <div class="threshold"><div class="interval">(0,9; 1,0]</div><div class="level">Незадовільний</div></div>
+        <div class="threshold"><div class="interval">(1,0; 1,1]</div><div class="level">Небезпечний</div></div>
+        <div class="threshold"><div class="interval">(1,1; 1,25]</div><div class="level">Критичний</div></div>
+        <div class="threshold"><div class="interval">(1,25; ∞)</div><div class="level">Абсолютна небезпека</div></div>
+      </div>
+      <p class="source-note">Джерело: Наказ Мінекономрозвитку № 1277 від 29.10.2013 р.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">Розрахунок виконується локально у браузері. Введені дані нікуди не надсилаються.</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
